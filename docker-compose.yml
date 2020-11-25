@@ -1,0 +1,36 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: elasticsearch-workshop-1
+    environment:
+      - "node.name=elasticsearch"
+      - "cluster.name=elasticsearch-cluster"
+      - "network.host=0.0.0.0"
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+      - "xpack.monitoring.enabled=false"
+      - "xpack.watcher.enabled=false"
+      - "xpack.ml.enabled=false"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  cerebro:
+    image: yannart/cerebro:0.8.1
+    container_name: Cerebro-workshop
+    ports: 
+      - "9000:9000"
+    external_links: 
+      - elasticsearch-workshop-1:elasticsearch1
+
+# sudo sysctl -w vm.max_map_count=262144 ayuda a que corre elasticsearch, es un error se la memoria virtual permitida por la maquina, solo se aumenta a un mayor tamaño, al reiniciar cambia a valor original
+      
