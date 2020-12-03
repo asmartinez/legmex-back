@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider', # OAuth2
     'rest_framework', # API
+    'rest_framework.authtoken',
     'users',
-    'tpe_col_enc',
+    'profiles_api',
 ]
 
 MIDDLEWARE = [
@@ -140,8 +141,10 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend' # To keep the Browsable API
+    'django.contrib.auth.backends.ModelBackend', # To keep the Browsable API
     'oauth2_provider.backends.OAuth2Backend',
 )
+ALLOWED_HOSTS = ['0.0.0.0','localhost']
+AUTH_USER_MODEL = 'profiles_api.UserProfile'
 
 
