@@ -5,8 +5,7 @@ from search.documents import CarDocument
 
 
 def bootstrap(request):
-    # doc_externo = loader.get_template('principal.html')
-    # documento = doc_externo.render()
+
     #car = Car(
     #name="Car two",
     #color="green",
@@ -27,11 +26,25 @@ def buscar(request):
         else:
             s = CarDocument.search().filter("term", color=producto)
 
-            for hit in s:
-                print("Car name : {}, description {}".format(hit.name, hit.description))
-
             return render(request, "resultado_busqueda.html", {"query":s})
         
     else:
         mensaje = "No has introducido un valor"
     return HttpResponse(mensaje)
+
+def subir(request):
+    return render(request, "subir.html")
+
+def respuesta(request):
+    if request.GET["name"]:
+        name = request.GET["name"]
+        color = request.GET["color"]
+        description = request.GET["description"]
+        car = Car(
+        name=name,
+        color=color,
+        type=2,
+        description=description
+        )
+        car.save()
+        return render(request, "respuesta.html", {"name":name, "color":color, "type":2, "description":description})

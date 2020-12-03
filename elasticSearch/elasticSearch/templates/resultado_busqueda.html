@@ -1,6 +1,17 @@
-<html>
-    <body>
-        <p>Estas buscando: <strong> {{query}} </strong></p>
+{% extends "base.html" %}
+{% block title %} Resultado busqueda {% endblock %} 
+{% block content %}
+        <div class="row">
 
-    </body>
-</html>
+        {% for hit in query %}
+        <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{hit.name}}</h5>
+                <p class="card-text">{{hit.description}}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+{% endblock %}

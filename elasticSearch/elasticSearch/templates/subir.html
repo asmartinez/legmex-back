@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} Buscador de peliculas {% endblock %} 
+{% block content %}
+<form action="/respuesta/" method="GET">
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" name="name">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Color</label>
+      <input type="text" class="form-control" id="exampleInputPassword1" name="color">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Descripcion</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" name="description">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Tipo de auto</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>1 sedan</option>
+          <option>2 truck</option>
+          <option>4 SUV</option>
+        </select>
+      </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %} 
