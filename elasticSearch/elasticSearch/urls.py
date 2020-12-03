@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from elasticSearch.views import saludo, despedida, dameFecha, calculaEdad, bootstrap
+from elasticSearch.views import bootstrap, buscar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('saludo/', saludo),
-    path('nosvemos/', despedida),
-    path('fecha/', dameFecha),
-    path('edad/<int:edad>/<int:agno>/', calculaEdad),
     path('principal/', bootstrap),
+    path('buscar/', buscar),
 ]
