@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'search',
-    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl', # Framework para conectarse a elastic search
 ]
 
 MIDDLEWARE = [
@@ -75,6 +75,7 @@ WSGI_APPLICATION = 'elastic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# Configuracion para base de datos local
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
@@ -82,6 +83,7 @@ WSGI_APPLICATION = 'elastic.wsgi.application'
 #    }
 #}
 
+# Configuracion db para postgres
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -135,6 +137,6 @@ STATIC_URL = '/static/'
 # Configuracion de elastic search
 ELASTICSEARCH_DSL={
     'default': {
-        'hosts': 'es01:9200'
+        'hosts': 'es01:9200' # Configuracion para el clouster de docker-compose
     },
 }

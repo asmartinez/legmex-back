@@ -17,9 +17,9 @@ def subir_documento(request):
         "texto":"<texto_documento>",
     }
     """
-    serializer = DocumentoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
+    if serializer.is_valid(): # Se valida la data
+        serializer.save() # Se guardan los datos en db y elastic search
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -31,11 +31,13 @@ def buscar_documento(request):
         "search":"<palabra_a_buscar>"
     }
     """
-    serializer = SearchSerializer(data=request.data)
-    if serializer.is_valid():
-        s = BibliotecaDocument.search().query("multi_match", query=serializer.data['search'], fields=['nombre', 'autor', 'texto'])
+    serializer = SearchSerializer(data=request.data) # Serializar datos del request
+    if serializer.is_valid(): # Se valida la data
+        #------ Query de busqueda en elastic search y se guardan los resultados en response ---------
+        s = BibliotecaDocument.search().query("multi_match", query=serializer.data['search'], fields=['nombre', 'autor', 'texto']) 
         response = s.execute()
-        res = DocumentoSerializer(response.hits, many=True)
+        #--------------------------------------------------------------------------------------------
+        res = DocumentoSerializer(response.hits, many=True) # Deserializacion de resultados de busqueda
         return Response(res.data, status=status.HTTP_302_FOUND)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
