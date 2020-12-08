@@ -16,9 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('authentication/', include('users.urls')),
-    #path('', include('tpe_col_enc.urls')),
-]
+    path('api/', include('profiles_api.urls')),
+] + static(
+    settings.STATIC_URL,
+    document_root=settings.STATIC_ROOT
+
+)
