@@ -131,3 +131,6 @@ dataPostgresql/
 
 # vscode
 .vscode
+
+# Static
+elastic/static/

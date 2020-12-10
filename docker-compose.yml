@@ -82,6 +82,17 @@ services:
       - ./dataPostgresql/datadir:/var/lib/postgresql/data
     networks:
       - elastic
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./elastic/static:/home/app/microservice/static
+    depends_on:
+      - web
+    restart: "on-failure"
+    networks:
+      - elastic
 
 networks:
   elastic:
