@@ -1,6 +1,7 @@
 ## I Use:
-[Python](https://www.python.org/) [3.7.1](https://www.python.org/downloads/release/python-371/)
-[Django](https://www.djangoproject.com/) [3.1.3](https://docs.djangoproject.com/en/3.1/releases/3.1.3/)
+[Python](https://www.python.org/) -->  [3.7.1](https://www.python.org/downloads/release/python-371/)
+
+[Django](https://www.djangoproject.com/)  -->  [3.1.3](https://docs.djangoproject.com/en/3.1/releases/3.1.3/)
 
 ### other:
 ```shell
@@ -27,6 +28,6 @@ pip3 install djangorestframework markdown django-filter djangorestframework_simp
 ```
 
 ### Other links:
-For more [information](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
+For more [information](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/).
 
-**I use [this tutorial](https://medium.com/python-in-plain-english/django-rest-framework-jwt-auth-with-login-and-register-77f830cd8789)**
+**I use [this tutorial](https://medium.com/python-in-plain-english/django-rest-framework-jwt-auth-with-login-and-register-77f830cd8789)**.
