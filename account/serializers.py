@@ -9,14 +9,22 @@ from django.contrib.auth.hashers import make_password
 class register_serializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		fields = ('id', 'email', 'password', 'username')  # the value 'name' return an error :
+		fields = ('id', 'email', 'username', 'password')  # the value 'name' return an error :
 		extra_fields = {'password': {'write_only': True}}
+		extra_kwargs = {
+			'email': {'required': True},
+			'password': {'required': True}
+		}
 
 	def create(self, validated_data):
 		user = User.objects.create_user(
 				email=validated_data['email'],
-				password=validated_data['password'],
-				username=validated_data['username'])
+				username=validated_data['username'],
+				password=validated_data['password']
+				)
+		user.set_password(validated_data['password'])
+		user.save()
+
 		return user
 
 class user_serializer(serializers.ModelSerializer):
