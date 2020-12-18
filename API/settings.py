@@ -25,7 +25,7 @@ SECRET_KEY = '+p+m2-kj_@4-_-#2((i(%+o673et#bh@-v^nv)-b#0z19205n6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','colegiotest.herokuapp.com']
 
 
 # Application definition
