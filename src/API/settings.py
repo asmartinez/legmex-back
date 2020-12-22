@@ -25,7 +25,7 @@ SECRET_KEY = '+p+m2-kj_@4-_-#2((i(%+o673et#bh@-v^nv)-b#0z19205n6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','colegiotest.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider', # OAuth2
     'rest_framework', # API
-    'rest_framework.authtoken',
     'users',
-    'profiles_api',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +51,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'API.urls'
@@ -79,26 +76,17 @@ WSGI_APPLICATION = 'API.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'API',
-            'USER': 'dev',
-            'PASSWORD': 'dev',
-            'HOST': 'localhost',
-            'PORT': '5434',
-        }
-    }
-else:
-    import dj_database_url
-    from decouple import config
 
-    DATABASES = {
-        'default': dj_database_url.config (
-            default=config('DATABASE_URL') #
-        )
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'API',
+        'USER': 'dev',
+        'PASSWORD': 'dev',
+        'HOST': 'localhost',
+        'PORT': '5434',
     }
+}
 
 
 # Password validation
@@ -138,11 +126,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',
-)
 
 
 REST_FRAMEWORK = {
@@ -156,10 +139,8 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # To keep the Browsable API
+    'django.contrib.auth.backends.ModelBackend' # To keep the Browsable API
     'oauth2_provider.backends.OAuth2Backend',
 )
-ALLOWED_HOSTS = ['0.0.0.0','localhost']
-AUTH_USER_MODEL = 'profiles_api.UserProfile'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
