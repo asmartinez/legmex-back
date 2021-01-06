@@ -30,4 +30,3 @@ pip3 install djangorestframework markdown django-filter djangorestframework_simp
 ### Other links:
 For more [information](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/).
 
-**I use [this tutorial](https://medium.com/python-in-plain-english/django-rest-framework-jwt-auth-with-login-and-register-77f830cd8789)**.

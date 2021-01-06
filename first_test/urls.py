@@ -16,15 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include  # add include
 
-# Added:
 #from django.conf.urls import url
-from rest_framework_simplejwt import views as views_jwt
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # with views_jwt:
-    path('api/token/', views_jwt.TokenObtainPairView.as_view(), name='Token_obtain_pair'),
-    path('api/token/refresh/', views_jwt.TokenRefreshView.as_view(), name='Token_refresh'),
     # with include:
     path('account/', include('account.urls'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

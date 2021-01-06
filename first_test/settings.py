@@ -25,7 +25,7 @@ SECRET_KEY = 'rmb$2%c(!mt3a+41di(5yhycb=9i-o-0j3irz6r42u_03ynbwy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -58,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'first_test.urls'
@@ -86,8 +87,13 @@ WSGI_APPLICATION = 'first_test.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # Change to PostgreSQL:
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # CHANGE FOR NAME
+        'USER': 'postgres',  # CHANGE FOR USER
+        'PASSWORD': 'postgres',  # CHANGE FOR PASS
+        'HOST': 'db',  # CHANGE FOR HOST
+        'DATABASE_PORT': '5432'  # CHANGE FOR PORT
     }
 }
 
@@ -127,5 +133,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+STATICFILES_DIR = (
+    os.path.join(BASE_DIR, 'static')
+)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
