@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'qil15v5f(cmls@pd+m7ayw&zy6**&0^isr$s#m5y6v!&s_y6y8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework', #API
     'users',
     'accounts',
+    'usuarios',
 ]
 
 MIDDLEWARE = [

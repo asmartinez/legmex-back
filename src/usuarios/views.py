@@ -27,7 +27,7 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post('f'{config("HOST"}/o/token/'', 
+        r = requests.post('http://0.0.0.0:8000/o/token/', 
             data={
                 'grant_type': 'password',
                 'username': request.data['username'],
@@ -49,7 +49,7 @@ def token(request):
     {"username": "username", "password": "1234abcd"}
     '''
     r = requests.post(
-    'f'{config("HOST"}/o/token/'', 
+    'http://0.0.0.0:8000/o/token/', 
         data={
             'grant_type': 'password',
             'username': request.data['username'],
@@ -70,7 +70,7 @@ def refresh_token(request):
     {"refresh_token": "<token>"}
     '''
     r = requests.post(
-    'f'{config("HOST"}/o/token/'', 
+    'http://localhost:8000/o/token/', 
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
@@ -89,7 +89,7 @@ def revoke_token(request):
     {"token": "<token>"}
     '''
     r = requests.post(
-        'f'{config("HOST"}/o/token/'', 
+        'http://localhost:8000/o/revoke_token/', 
         data={
             'token': request.data['token'],
             'client_id': CLIENT_ID,
@@ -101,12 +101,3 @@ def revoke_token(request):
         return Response({'message': 'token revoked'}, r.status_code)
     # Return the error if it goes badly
     return Response(r.json(), r.status_code)
-
-'''from django.shortcuts import render
-from rest_framework import generics
-from .models import Person
-from .serializers import PersonSerializer
-
-class PersonList(generics.ListCreateAPIView):
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer'''
