@@ -27,7 +27,7 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post(f'{HOST}/o/token/', 
+        r = requests.post('/o/token/', 
             data={
                 'grant_type': 'password',
                 'username': request.data['username'],
@@ -48,8 +48,7 @@ def token(request):
     Gets tokens with username and password. Input should be in the format:
     {"username": "username", "password": "1234abcd"}
     '''
-    r = requests.post(
-    f'{HOST}/o/token/', 
+    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
         data={
             'grant_type': 'password',
             'username': request.data['username'],
@@ -69,8 +68,7 @@ def refresh_token(request):
     Registers user to the server. Input should be in the format:
     {"refresh_token": "<token>"}
     '''
-    r = requests.post(
-    f'{HOST}/o/token/', 
+    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
@@ -88,8 +86,7 @@ def revoke_token(request):
     Method to revoke tokens.
     {"token": "<token>"}
     '''
-    r = requests.post(
-        f'{HOST}/o/token/', 
+    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
         data={
             'token': request.data['token'],
             'client_id': CLIENT_ID,
