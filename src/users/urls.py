@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import PersonList
+
+from . import views
 
 urlpatterns = [
-    path('persona/', PersonList.as_view(),name = 'Persona_list'),
+    path('register/', views.register),
+    path('token/', views.token),
+    path('token/refresh/', views.refresh_token),
+    path('token/revoke/', views.revoke_token),
 ]

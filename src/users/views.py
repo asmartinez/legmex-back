@@ -27,7 +27,7 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post('/o/token/', 
+        r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
             data={
                 'grant_type': 'password',
                 'username': request.data['username'],
