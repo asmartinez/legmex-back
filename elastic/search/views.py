@@ -1,20 +1,23 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .models import Biblioteca
-from .serializer import DocumentoSerializer, SearchSerializer
+from .models import Biblioteca, PDF
+from .serializer import DocumentoSerializer, SearchSerializer, PDFSerializer
 from .documents import BibliotecaDocument
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
-# Create your views here.
+
 @api_view(['POST'])
-def subir_documento(request):
+@parser_classes([MultiPartParser, FormParser])
+def SubirDocumento(request):
     """
     Funcion para subir documento en el formato json
     {
         "nombre":"<nombre_documento>",
         "autor":"<autor_documetno>",
         "texto":"<texto_documento>",
+        "archivo:"<archivo a subir>"
     }
     """
     serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
@@ -24,7 +27,8 @@ def subir_documento(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def buscar_documento(request):
+@parser_classes([JSONParser])
+def BuscarDocumento(request):
     """
     Funcion para busqueda de docuemntos en la base de datosen formato json
     {
@@ -41,5 +45,3 @@ def buscar_documento(request):
         return Response(res.data, status=status.HTTP_302_FOUND)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-        

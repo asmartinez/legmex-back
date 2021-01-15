@@ -1,7 +1,7 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('buscar/', views.buscar_documento),
-    path('subir/', views.subir_documento),
+    path('buscar/', views.BuscarDocumento),
+    path('subir/', views.SubirDocumento),
 ]

@@ -10,5 +10,9 @@ mkdir dataPostgresql
 cd dataPostgresql
 mkdir datadir
 cd ..
+cd elastic
+mkdir static
+mkdir uploads
+cd ..
 sudo sysctl -w vm.max_map_count=262144
 docker-compose up 

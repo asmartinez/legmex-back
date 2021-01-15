@@ -134,3 +134,4 @@ dataPostgresql/
 
 # Static
 elastic/static/
+elastic/uploads/

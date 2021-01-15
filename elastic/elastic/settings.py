@@ -76,25 +76,26 @@ WSGI_APPLICATION = 'elastic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# Configuracion para base de datos local
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
-# Configuracion db para postgres
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'elasticSearch',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+if DEBUG:
+    # Configuracion para base de datos local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # Configuracion db para postgres
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'elasticSearch',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+            'HOST': 'db',
+            'PORT': 5432,
+        }
+    }
 
 
 # Password validation
@@ -137,8 +138,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Configuracion de elastic search
+
+if(not DEBUG):
+    nodoElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
+else:
+    nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para probal local
+
 ELASTICSEARCH_DSL={
-    'default': {
-        'hosts': 'es01:9200' # Configuracion para el clouster de docker-compose
-    },
+    'default': nodoElastic,
 }
+
+# Configuracion dpnde se guardan los archivos
+
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
