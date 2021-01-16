@@ -9,17 +9,21 @@ class BibliotecaDocument(Document):
         # Name of the Elasticsearch index
         name = 'biblioteca'
         # See Elasticsearch Indices API reference for available settings
-        settings = {'number_of_shards': 3,
-                    'number_of_replicas': 2}
+        settings = {'number_of_shards': 1,
+                    'number_of_replicas': 0}
 
     class Django:
         model = Biblioteca # The model associated with this Document
 
         # The fields of the model you want to be indexed in Elasticsearch
         fields = [
-            'nombre',
-            'autor',
-            'texto',
+            'dispositionTitle',
+            'date',
+            'volume',
+            'pageNumbers',
+            'legislationTranscriptOriginal',
+            'legislationTranscriptCopy',
+            'place',
         ]
 
         # Ignore auto updating of Elasticsearch when a model is saved

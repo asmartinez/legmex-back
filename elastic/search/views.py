@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .models import Biblioteca, PDF
-from .serializer import DocumentoSerializer, SearchSerializer, PDFSerializer
+from .models import Biblioteca
+from .serializer import DocumentoSerializer, SearchSerializer
 from .documents import BibliotecaDocument
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
@@ -12,12 +12,16 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 @parser_classes([MultiPartParser, FormParser])
 def SubirDocumento(request):
     """
-    Funcion para subir documento en el formato json
+    Funcion para subir documento en formato formulario html
     {
-        "nombre":"<nombre_documento>",
-        "autor":"<autor_documetno>",
-        "texto":"<texto_documento>",
-        "archivo:"<archivo a subir>"
+        "id": "",
+        "dispositionTitle": "",
+        "date": "",
+        "volume": "",
+        "pageNumbers": 0,
+        "legislationTranscriptOriginal": "",
+        "legislationTranscriptCopy": "",
+        "place": "",
     }
     """
     serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
@@ -30,7 +34,7 @@ def SubirDocumento(request):
 @parser_classes([JSONParser])
 def BuscarDocumento(request):
     """
-    Funcion para busqueda de docuemntos en la base de datosen formato json
+    Funcion para busqueda de docuemntos en la base de datos en un formulario 
     {
         "search":"<palabra_a_buscar>"
     }
@@ -38,7 +42,8 @@ def BuscarDocumento(request):
     serializer = SearchSerializer(data=request.data) # Serializar datos del request
     if serializer.is_valid(): # Se valida la data
         #------ Query de busqueda en elastic search y se guardan los resultados en response ---------
-        s = BibliotecaDocument.search().query("multi_match", query=serializer.data['search'], fields=['nombre', 'autor', 'texto']) 
+        s = BibliotecaDocument.search().query("multi_match", query=serializer.data['search'], 
+        fields=['dispositionTitle', 'date', 'volume', 'pageNumbers', 'legislationTranscriptCopy', 'place']) 
         response = s.execute()
         #--------------------------------------------------------------------------------------------
         res = DocumentoSerializer(response.hits, many=True) # Deserializacion de resultados de busqueda
