@@ -24,6 +24,8 @@ class BibliotecaDocument(Document):
             'legislationTranscriptOriginal',
             'legislationTranscriptCopy',
             'place',
+            'dispositionTypeId',
+            'affairId',
         ]
 
         # Ignore auto updating of Elasticsearch when a model is saved

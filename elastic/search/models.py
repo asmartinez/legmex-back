@@ -9,7 +9,6 @@ class Biblioteca(models.Model):
     legislationTranscriptOriginal = models.FileField(blank=False, null=False)
     legislationTranscriptCopy = models.TextField()
     place = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.file.name
+    dispositionTypeId = models.CharField(max_length=255)
+    affairId = models.CharField(max_length=255)
 

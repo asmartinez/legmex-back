@@ -18,10 +18,12 @@ def SubirDocumento(request):
         "dispositionTitle": "",
         "date": "",
         "volume": "",
-        "pageNumbers": 0,
-        "legislationTranscriptOriginal": "",
+        "pageNumbers": "",
+        "legislationTranscriptOriginal": "documentoPDF",
         "legislationTranscriptCopy": "",
         "place": "",
+        "dispositionTypeId": "",
+        "affairId": "",
     }
     """
     serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
@@ -43,10 +45,13 @@ def BuscarDocumento(request):
     if serializer.is_valid(): # Se valida la data
         #------ Query de busqueda en elastic search y se guardan los resultados en response ---------
         s = BibliotecaDocument.search().query("multi_match", query=serializer.data['search'], 
-        fields=['dispositionTitle', 'date', 'volume', 'pageNumbers', 'legislationTranscriptCopy', 'place']) 
+        fields=['dispositionTitle', 'date', 'volume', 'pageNumbers', 'legislationTranscriptCopy', 'place', 'dispositionTypeId', 'affairId']) 
         response = s.execute()
         #--------------------------------------------------------------------------------------------
         res = DocumentoSerializer(response.hits, many=True) # Deserializacion de resultados de busqueda
+        for i in range(0,len(res.data)):
+            res.data[i]['legislationTranscriptOriginal'] = response.hits[i]['legislationTranscriptOriginal']
+
         return Response(res.data, status=status.HTTP_302_FOUND)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
