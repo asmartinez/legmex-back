@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'usuarios',
     'registro',
+    'catdisposition',
 ]
 
 MIDDLEWARE = [

@@ -11,3 +11,10 @@ class ListRegistro(APIView):
         registros = Registro.objects.all()
         registro_json = RegistroSerializer(registros, many = True)
         return Response(registro_json.data) 
+
+    def post(self, request):
+        registro_json = RegistroSerializer(data=request.data)
+        if registro_json.is_valid():
+            registro_json.save()
+            return Response(registro_json.data, status=201)
+        return Response(registro_json.errors, status=400)
