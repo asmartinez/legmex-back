@@ -8,6 +8,4 @@ class DocumentoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class SearchSerializer(serializers.Serializer):
-    search = serializers.CharField(max_length=50)
-
-    
+    search = serializers.CharField(max_length=255)
