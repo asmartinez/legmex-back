@@ -29,7 +29,7 @@ def SubirDocumento(request):
     serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
     if serializer.is_valid(): # Se valida la data
         serializer.save() # Se guardan los datos en db y elastic search
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
@@ -51,6 +51,6 @@ def BuscarDocumento(request):
         for i in range(0,len(res.data)):
             res.data[i]['legislationTranscriptOriginal'] = response.hits[i]['legislationTranscriptOriginal']
 
-        return Response(res.data, status=status.HTTP_302_FOUND)
+        return Response(res.data, status=status.HTTP_200_OK)
     return Response("Bad Request", status=status.HTTP_400_BAD_REQUEST)
 
