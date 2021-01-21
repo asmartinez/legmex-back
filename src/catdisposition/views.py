@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import Tpe_col_cattdisp
 from .serializers import Tpe_col_cattdispSerializer
 
 # Create your views here.
 class ListTpe_col_cattdisp(APIView):
+    permission_classes = (AllowAny,)
     def get(self, request):
         disposiciones = Tpe_col_cattdisp.objects.all()
         disposiciones_json = Tpe_col_cattdispSerializer(disposiciones, many = True)
