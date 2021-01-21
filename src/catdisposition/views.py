@@ -15,6 +15,7 @@ class ListTpe_col_cattdisp(APIView):
         return Response(disposiciones_json.data) 
 
     def post(self, request):
+        permission_classes = (AllowAny,)
         disposiciones_json = Tpe_col_cattdispSerializer(data=request.data)
         if disposiciones_json.is_valid():
             disposiciones_json.save()
