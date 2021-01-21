@@ -6,6 +6,3 @@ class DocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Biblioteca
         fields = "__all__"
-
-class SearchSerializer(serializers.Serializer):
-    search = serializers.CharField(max_length=255)
