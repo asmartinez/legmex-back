@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import Affair
 from .serializers import AffairSerializer
 
 # Create your views here.
 class ListAffair(APIView):
+    permission_classes = (AllowAny,)
     def get(self, request):
         asuntos = Affair.objects.all()
         asuntos_json = AffairSerializer(asuntos, many = True)
