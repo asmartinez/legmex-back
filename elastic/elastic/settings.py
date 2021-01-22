@@ -26,7 +26,7 @@ SECRET_KEY = 'mfpnip5-z-pvdzr$76#p=*e1+_x0!(c7de05*(hkna5!&58#^)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost:8000']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,7 +92,7 @@ else:
             'NAME': 'elasticSearch',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': 'db',
+            'HOST': 'localhost',
             'PORT': 5432,
         }
     }
@@ -140,7 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'server/static/')
 # Configuracion de elastic search
 
 if(not DEBUG):
-    nodoElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
+    nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para el clouster de docker-compose
 else:
     nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para probal local
 

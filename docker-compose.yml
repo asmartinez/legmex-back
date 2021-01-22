@@ -8,10 +8,8 @@ services:
     depends_on:
       - db
       - es01
-    networks:
-      - elastic
     volumes: 
-      - /home/danytorres/server:./elastic/server
+      - /home/danytorres/server:./server
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
     container_name: es01
@@ -27,8 +25,6 @@ services:
       - /home/danytorres/server/dataElasticSearch:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
-    networks:
-      - elastic
 
     db:
     image: postgres:13.1-alpine
@@ -38,9 +34,5 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes: 
       - /home/danytorres/server/dataPostgresql/datadir:/var/lib/postgresql/data
-    networks:
-      - elastic
-
-networks:
-  elastic:
-    driver: bridge
+    ports: 
+      - "5432:5432"
