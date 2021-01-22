@@ -9,7 +9,7 @@ from .serializers import CreateUserSerializer
 
 CLIENT_ID = 'HRyEKuSO87Yq8vozVv2pVfqCZc92GWGXHhEjmZ3a'
 CLIENT_SECRET = 'NWWbCyHvIsDjUdQQivuCWAejtXLOJXsv8q35AG6XJuRKGsJOFHN7AoefzwrPWYFn9XNv81qyFe6dyCHH7BmIUIE3mjbsidWeYzMIbpMhzThwBqXDxzzIcluUZQQMIw1W'
-
+MiDEBUG = False
 
 
 @api_view(['POST'])
@@ -27,15 +27,25 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
-            data={
+        if miDEBUG:
+            r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', data={
                 'grant_type': 'password',
                 'username': request.data['username'],
                 'password': request.data['password'],
                 'client_id': CLIENT_ID,
                 'client_secret': CLIENT_SECRET,
             },
-        )
+            )
+        else:
+            r = requests.post('https://localhost:8000/o/token/', data={
+                'grant_type': 'password',
+                'username': request.data['username'],
+                'password': request.data['password'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+            )
+
         return Response(r.json())
     return Response(serializer.errors)
 
@@ -48,15 +58,26 @@ def token(request):
     Gets tokens with username and password. Input should be in the format:
     {"username": "username", "password": "1234abcd"}
     '''
-    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
-        data={
-            'grant_type': 'password',
-            'username': request.data['username'],
-            'password': request.data['password'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-        },
-    )
+    if miDEBUG:
+        r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
+            data={
+                'grant_type': 'password',
+                'username': request.data['username'],
+                'password': request.data['password'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
+    else:
+        r = requests.post('https://localhost:8000/o/token/', 
+            data={
+                'grant_type': 'password',
+                'username': request.data['username'],
+                'password': request.data['password'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
     return Response(r.json())
 
 
@@ -68,14 +89,25 @@ def refresh_token(request):
     Registers user to the server. Input should be in the format:
     {"refresh_token": "<token>"}
     '''
-    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
-        data={
-            'grant_type': 'refresh_token',
-            'refresh_token': request.data['refresh_token'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-        },
-    )
+    if miDEBUG:
+        r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
+            data={
+                'grant_type': 'refresh_token',
+                'refresh_token': request.data['refresh_token'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
+    else:
+        r = requests.post('https://localhost:8000/o/token/', 
+            data={
+                'grant_type': 'refresh_token',
+                'refresh_token': request.data['refresh_token'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
+
     return Response(r.json())
 
 
@@ -86,13 +118,23 @@ def revoke_token(request):
     Method to revoke tokens.
     {"token": "<token>"}
     '''
-    r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
-        data={
-            'token': request.data['token'],
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-        },
-    )
+    if miDEBUG:
+        r = requests.post('https://pycolegiotest.herokuapp.com/:8000/o/token/', 
+            data={
+                'token': request.data['token'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
+    else:
+        r = requests.post('https://localhost:8000/o/token/', 
+            data={
+                'token': request.data['token'],
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+            },
+        )
+
     # If it goes well return sucess message (would be empty otherwise) 
     if r.status_code == requests.codes.ok:
         return Response({'message': 'token revoked'}, r.status_code)

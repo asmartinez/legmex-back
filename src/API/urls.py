@@ -28,6 +28,7 @@ urlpatterns = [
     path('registros/', include('registro.urls')),
     path('dispositions/', include('catdisposition.urls')),
     path('affair/', include('affair.urls')),
+    path('', include('users.urls')),
 ] + static(
     settings.STATIC_URL,
     document_root=settings.STATIC_ROOT
