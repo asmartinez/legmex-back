@@ -7,5 +7,3 @@ urlpatterns = [
     path('buscar/', views.BuscarDocumento),
     path('subir/', views.SubirDocumento),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
