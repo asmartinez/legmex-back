@@ -88,6 +88,7 @@ services:
       - 80:80
     volumes:
       - ./elastic/static:/home/app/microservice/static
+      - ./elastic/uploads:/home/app/microservice/uploads
     depends_on:
       - web
     restart: "on-failure"
