@@ -2,9 +2,6 @@ version: '3.4'
 
 services:
   colegioelasticsearch:
-    image: colegioelasticsearch
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: registry.gitlab.com/danytorres/colegio-elastic:latest
     ports:
       - 8000:8000
