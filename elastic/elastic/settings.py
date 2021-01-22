@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mfpnip5-z-pvdzr$76#p=*e1+_x0!(c7de05*(hkna5!&58#^)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost:8000']
 
 
 # Application definition
@@ -135,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'server/static/')
 
 # Configuracion de elastic search
 
@@ -151,5 +151,5 @@ ELASTICSEARCH_DSL={
 # Configuracion dpnde se guardan los archivos
 
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'server/uploads/')
 
