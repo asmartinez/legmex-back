@@ -134,7 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/server/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'server/static/')
 
 # Configuracion de elastic search
@@ -150,6 +150,6 @@ ELASTICSEARCH_DSL={
 
 # Configuracion donde se guardan los archivos
 
-MEDIA_URL = '/server/uploads/'
+MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'server/uploads/')
 
