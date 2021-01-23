@@ -1,0 +1,11 @@
+build:
+  docker:
+    web: Dockerfile
+
+run:
+  web: python manage.py runserver
+
+release:
+  image: web
+  command:
+    - python manage.py makemigrations && python manage.py migrate

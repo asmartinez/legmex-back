@@ -87,13 +87,16 @@ WSGI_APPLICATION = 'first_test.wsgi.application'
 
 DATABASES = {
     'default': {
+        # cambiado a SQLite para pruebas:
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
         # Change to PostgreSQL:
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # CHANGE FOR NAME
-        'USER': 'postgres',  # CHANGE FOR USER
-        'PASSWORD': 'postgres',  # CHANGE FOR PASS
-        'HOST': 'db',  # CHANGE FOR HOST
-        'DATABASE_PORT': '5432'  # CHANGE FOR PORT
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'postgres',  # CHANGE FOR NAME
+        #'USER': 'postgres',  # CHANGE FOR USER
+        #'PASSWORD': 'postgres',  # CHANGE FOR PASS
+        #'HOST': 'db',  # CHANGE FOR HOST
+        #'DATABASE_PORT': '5432'  # CHANGE FOR PORT
     }
 }
 
@@ -133,11 +136,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
 
-STATICFILES_DIR = (
-    os.path.join(BASE_DIR, 'static')
-)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#import os
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_URL = '/static/'
+
+#STATICFILES_DIR = (
+#    os.path.join(BASE_DIR, 'static')
+#)
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
