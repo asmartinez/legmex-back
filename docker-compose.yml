@@ -42,7 +42,7 @@ services:
       - ./elastic/server/static:/home/app/microservice/static
       - ./elastic/server/uploads:/home/app/microservice/uploads
     depends_on:
-      - web
+      - colegioelasticsearch
     restart: "on-failure"
     networks:
       - elastic
