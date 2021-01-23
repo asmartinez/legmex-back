@@ -6,10 +6,8 @@ services:
     # build: .
     command: ["bash","migrate.sh"]
     # entrypoint: ["bash","migrate.sh"]
-    ports:
-      - 8000:8000
     volumes:
-      - ./elastic/server:/code/server
+      - ./elastic/server:/app/server
     depends_on:
       - db
       - es01
