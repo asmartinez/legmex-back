@@ -92,7 +92,7 @@ else:
             'NAME': 'elasticSearch',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
-            'HOST': 'localhost',
+            'HOST': 'db',
             'PORT': 5432,
         }
     }
@@ -140,7 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'server/static/')
 # Configuracion de elastic search
 
 if(not DEBUG):
-    nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para el clouster de docker-compose
+    nodoElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
 else:
     nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para probal local
 
@@ -148,7 +148,7 @@ ELASTICSEARCH_DSL={
     'default': nodoElastic,
 }
 
-# Configuracion dpnde se guardan los archivos
+# Configuracion donde se guardan los archivos
 
 MEDIA_URL = '/uploads/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'server/uploads/')

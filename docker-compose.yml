@@ -3,36 +3,56 @@ version: '3.4'
 services:
   colegioelasticsearch:
     image: registry.gitlab.com/danytorres/colegio-elastic:latest
+    # build: .
+    command: ["bash","migrate.sh"]
+    # entrypoint: ["bash","migrate.sh"]
     ports:
       - 8000:8000
+    volumes:
+      - ./elastic/server:/code/server
     depends_on:
       - db
       - es01
-    volumes: 
-      - /home/danytorres/server:./server
+    networks:
+      - elastic
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     container_name: es01
     environment:
       - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
     volumes:
-      - /home/danytorres/server/dataElasticSearch:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-
-    db:
+      - data01:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+  db:
     image: postgres:13.1-alpine
     environment:
       - POSTGRES_DB=elasticSearch
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes: 
-      - /home/danytorres/server/dataPostgresql/datadir:/var/lib/postgresql/data
-    ports: 
-      - "5432:5432"
+      - data02:/var/lib/postgresql/data
+    networks:
+      - elastic
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./elastic/server/static:/home/app/microservice/static
+      - ./elastic/server/uploads:/home/app/microservice/uploads
+    depends_on:
+      - web
+    restart: "on-failure"
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    driver: bridge
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
