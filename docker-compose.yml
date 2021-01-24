@@ -4,7 +4,7 @@ services:
   colegioelasticsearch:
     image: registry.gitlab.com/danytorres/colegio-elastic:latest
     # build: .
-    command: ["bash","migrate.sh"]
+    # command: ["bash","migrate.sh"]
     # entrypoint: ["bash","migrate.sh"]
     volumes:
       - ./elastic/server:/app/server
