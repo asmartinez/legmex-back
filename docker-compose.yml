@@ -16,7 +16,6 @@ services:
       - elastic
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
-    container_name: es01
     environment:
       - discovery.type=single-node
     volumes:
@@ -45,6 +44,13 @@ services:
     restart: "on-failure"
     networks:
       - elastic
+  watchtower:
+    image: containrrr/watchtower
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment: 
+      - REPO_USER=username
+      - REPO_PASS=password
 
 networks:
   elastic:
