@@ -133,5 +133,5 @@ dataPostgresql/
 .vscode
 
 # Static
-elastic/server/static/
-elastic/server/uploads/
+elastic/static/
+elastic/uploads/

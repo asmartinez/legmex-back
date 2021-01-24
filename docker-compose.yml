@@ -7,8 +7,8 @@ services:
     # command: ["bash","migrate.sh"]
     # entrypoint: ["bash","migrate.sh"]
     volumes:
-      - ~/elastic/static:/app/static
-      -  ~/elastic/uploads:/app/uploads
+      - ./elastic/static:/app/static
+      -  ./elastic/uploads:/app/uploads
     depends_on:
       - db
       - es01
@@ -38,8 +38,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ~/elastic/static:/home/app/microservice/static
-      - ~/elastic/uploads:/home/app/microservice/uploads
+      - ./elastic/static:/home/app/microservice/static
+      - ./elastic/uploads:/home/app/microservice/uploads
     depends_on:
       - colegioelasticsearch
     restart: "on-failure"
