@@ -50,7 +50,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment: 
       - REPO_USER=username
-      - REPO_PASS=password
+      - REPO_PASS=
 
 networks:
   elastic:
