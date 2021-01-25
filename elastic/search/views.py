@@ -1,14 +1,12 @@
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .models import Biblioteca
 from .serializer import DocumentoSerializer
 from .documents import BibliotecaDocument
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 @parser_classes([MultiPartParser, FormParser])
 def SubirDocumento(request):
     """
@@ -26,31 +24,52 @@ def SubirDocumento(request):
         "affairId": "",
     }
     """
-    serializer = DocumentoSerializer(data=request.data) # Serializar datos del request
-    if serializer.is_valid(): # Se valida la data
-        serializer.save() # Se guardan los datos en db y elastic search
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializerUpload = DocumentoSerializer(
+        data=request.data
+    )  # Serializar datos del request
+    if serializerUpload.is_valid():  # Se valida la data
+        serializerUpload.save()  # Se guardan los datos en db y elastic search
+        return Response(serializerUpload.data, status=status.HTTP_200_OK)
+    return Response(serializerUpload.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def BuscarDocumento(request):
     """
-    Funcion para busqueda de docuemntos en la base de datos en un formulario 
+    Funcion para busqueda de docuemntos en la base de datos en un formulario
     {
         "search":"<palabra_a_buscar>"
     }
     """
-    if request.GET.get('search'):
-        search = request.GET.get('search') 
-        #------ Query de busqueda en elastic search y se guardan los resultados en response ---------
-        s = BibliotecaDocument.search().query("multi_match", query=search,
-        fields=['dispositionTitle', 'date', 'volume', 'pageNumbers', 'legislationTranscriptCopy', 'place', 'dispositionTypeId', 'affairId']) 
-        response = s.execute()
-        #--------------------------------------------------------------------------------------------
-        res = DocumentoSerializer(response.hits, many=True) # Deserializacion de resultados de busqueda
-        for i in range(0,len(res.data)):
-            res.data[i]['legislationTranscriptOriginal'] = response.hits[i]['legislationTranscriptOriginal']
+    if request.GET.get("search"):
+        searchString = request.GET.get("search")
+        # ------ Query de busqueda en elastic search y se guardan los resultados en response ---------
+        searchQuery = BibliotecaDocument.search().query(
+            "multi_match",
+            query=searchString,
+            fields=[
+                "dispositionTitle",
+                "date",
+                "volume",
+                "pageNumbers",
+                "legislationTranscriptCopy",
+                "place",
+                "dispositionTypeId",
+                "affairId",
+            ],
+        )
+        responseQuery = searchQuery.execute()
+        # ------------------------------------------------------------------------------------------------------------------
+        # Deserializacion de resultados de busqueda ------------------------------------------------------------------------
+        deSerializer = DocumentoSerializer(
+            responseQuery.hits, 
+            many=True
+        )
+        # ------------------------------------------------------------------------------------------------------------------
+        # ------ Por falla en deserializacion no manda el link del documento, ----------------------------------------------
+        # ------ asi que se usa la respuesta de elastic para llenar ese campo ----------------------------------------------
+        for i in range(0, len(deSerializer.data)):
+            deSerializer.data[i]["legislationTranscriptOriginal"] = responseQuery.hits[i]["legislationTranscriptOriginal"]
 
-        return Response(res.data, status=status.HTTP_200_OK)
+        return Response(deSerializer.data, status=status.HTTP_200_OK)
     return Response("Bad Request", status=status.HTTP_400_BAD_REQUEST)
-

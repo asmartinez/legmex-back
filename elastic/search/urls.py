@@ -1,9 +1,7 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
-    path('buscar/', views.BuscarDocumento),
-    path('subir/', views.SubirDocumento),
+    path('search/', views.BuscarDocumento), # URL para busqueda de documento
+    path('upload/', views.SubirDocumento), # URL para subir un documento 
 ]

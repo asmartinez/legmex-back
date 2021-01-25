@@ -140,16 +140,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 # Configuracion de elastic search
 
 if(not DEBUG):
-    nodoElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
+    serverElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
 else:
-    nodoElastic = {'hosts': 'localhost:9200'} # Configuracion para probal local
+    serverElastic = {'hosts': 'localhost:9200'} # Configuracion para probar local
 
 ELASTICSEARCH_DSL={
-    'default': nodoElastic,
+    'default': serverElastic,
 }
 
-# Configuracion dpnde se guardan los archivos
+# Configuracion donde se guardan los archivos
 
 MEDIA_URL = '/uploads/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
