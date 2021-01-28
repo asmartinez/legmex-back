@@ -25,7 +25,7 @@ SECRET_KEY = 'qos#wk1t=8!&25+12$vh2e%cug1)k*@suiri&-=o47e#%$ue!a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'API.urls'
@@ -76,7 +77,9 @@ WSGI_APPLICATION = 'API.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+
+if DEBUG:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'apireact',
@@ -86,6 +89,16 @@ DATABASES = {
         'PORT': '5434',
     }
 }
+else:
+    import dj_database_url
+    from decouple import config
+
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL') #DATABASE_URL
+        )
+
+    }
 
 
 # Password validation
@@ -125,6 +138,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = (
+    BASE_DIR / 'static',
+)
+
+STATICFILES_STOGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
