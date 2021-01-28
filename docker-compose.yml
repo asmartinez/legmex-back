@@ -3,25 +3,23 @@ version: '3.4'
 services:
   colegioelasticsearch:
     image: registry.gitlab.com/danytorres/colegio-elastic:latest
-    # build: .
-    # command: ["bash","migrate.sh"]
-    # entrypoint: ["bash","migrate.sh"]
+    container_name: colegioelasticsearch
     volumes:
       - ./elastic/static:/app/static
       -  ./elastic/uploads:/app/uploads
     depends_on:
       - db
       - es01
-    networks:
-      - elastic
+
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     environment:
       - discovery.type=single-node
     volumes:
       - data01:/usr/share/elasticsearch/data
-    networks:
-      - elastic
+    expose:
+      - "9200"
+
   db:
     image: postgres:13.1-alpine
     environment:
@@ -30,31 +28,15 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes: 
       - data02:/var/lib/postgresql/data
-    networks:
-      - elastic
-  nginx:
-    build: ./nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./elastic/static:/home/app/microservice/static
-      - ./elastic/uploads:/home/app/microservice/uploads
-    depends_on:
-      - colegioelasticsearch
-    restart: "on-failure"
-    networks:
-      - elastic
+    expose:
+      - "5432"
+
   watchtower:
     image: containrrr/watchtower
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock
-    environment: 
-      - REPO_USER=
-      - REPO_PASS=
-
-networks:
-  elastic:
-    driver: bridge
+      - ~/.docker/config.json:/config.json
+    command: colegioelasticsearch --interval 600 --cleanup
 
 volumes:
   data01:
