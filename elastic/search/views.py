@@ -37,18 +37,20 @@ def SubirDocumento(request):
 @api_view(["GET"])
 def BuscarDocumento(request):
     """
-    Funcion para busqueda de docuemntos en la base de datos en un formulario
-    {
-        "search":"<palabra_a_buscar>"
-    }
+    Funcion para busqueda de documentos en la base de datos en un formulario
+        "search":"<palabra_a_buscar>",
+        "fields":"dispositionTitle,date,volume" # Si no se envia en la peticion GET se hace
+                    una busqueda en todos los campos, se tiene que separar con coma ( , ) 
+                    cada campo especifico en donde deseas buscar #
     """
-    if request.GET.get("search"):
-        searchString = request.GET.get("search")
-        # ------ Query de busqueda en elastic search y se guardan los resultados en response ---------
-        searchQuery = BibliotecaDocument.search().query(
-            "multi_match",
-            query=searchString,
-            fields=[
+    # Revisa si se mandan los campos especificos a buscar
+    if request.GET.get("search") and request.GET.get("fields"): 
+        searchString = request.query_params["search"] # Asigna palabra a buscar
+        fieldToSearch = request.query_params["fields"].split(",") # Combierte el string a un array 
+    # Revisa si por lo menos se manda el campo search para hacer la busqueda en todos los campos
+    elif request.GET.get("search"): 
+        searchString = request.query_params["search"]
+        fieldToSearch = [
                 "dispositionTitle",
                 "date",
                 "volume",
@@ -58,20 +60,26 @@ def BuscarDocumento(request):
                 "dispositionNumber",
                 "dispositionTypeId",
                 "affairId",
-            ],
-        )
-        responseQuery = searchQuery.execute()
-        # ------------------------------------------------------------------------------------------------------------------
-        # Deserializacion de resultados de busqueda ------------------------------------------------------------------------
-        deSerializer = DocumentoSerializer(
-            responseQuery.hits, 
-            many=True
-        )
-        # ------------------------------------------------------------------------------------------------------------------
-        # ------ Por falla en deserializacion no manda el link del documento, ----------------------------------------------
-        # ------ asi que se usa la respuesta de elastic para llenar ese campo ----------------------------------------------
-        for i in range(0, len(deSerializer.data)):
-            deSerializer.data[i]["legislationTranscriptOriginal"] = responseQuery.hits[i]["legislationTranscriptOriginal"]
+            ]
+    # Devuelve un error si no se manda ningun argumento 
+    else: return Response(" No se envio algun argumento de busqueda ", status=status.HTTP_400_BAD_REQUEST)
+    # ------ Query de busqueda en elastic search y se guardan los resultados en response ---------
+    searchQuery = BibliotecaDocument.search().query(
+        "multi_match",
+        query=searchString,
+        fields=fieldToSearch
+    )
+    responseQuery = searchQuery.execute()
+    # ------------------------------------------------------------------------------------------------------------------
+    # Deserializacion de resultados de busqueda ------------------------------------------------------------------------
+    deSerializer = DocumentoSerializer(
+        responseQuery.hits, 
+        many=True
+    )
+    # ------------------------------------------------------------------------------------------------------------------
+    # ------ Por falla en deserializacion no manda el link del documento, ----------------------------------------------
+    # ------ asi que se usa la respuesta de elastic para llenar ese campo ----------------------------------------------
+    for i in range(0, len(deSerializer.data)):
+        deSerializer.data[i]["legislationTranscriptOriginal"] = responseQuery.hits[i]["legislationTranscriptOriginal"]
 
-        return Response(deSerializer.data, status=status.HTTP_200_OK)
-    return Response("Bad Request", status=status.HTTP_400_BAD_REQUEST)
+    return Response(deSerializer.data, status=status.HTTP_200_OK)
