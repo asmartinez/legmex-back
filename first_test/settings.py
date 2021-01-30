@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Added:
-    'rest_framework'
+    'rest_framework',
+    'zotero'
 ]
 
 
@@ -139,7 +140,7 @@ USE_TZ = True
 
 #import os
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 #STATICFILES_DIR = (
 #    os.path.join(BASE_DIR, 'static')
