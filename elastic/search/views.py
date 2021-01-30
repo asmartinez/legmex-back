@@ -20,6 +20,7 @@ def SubirDocumento(request):
         "legislationTranscriptOriginal": "documentoPDF",
         "legislationTranscriptCopy": "",
         "place": "",
+        "dispositionNumber": "",
         "dispositionTypeId": "",
         "affairId": "",
     }
@@ -54,6 +55,7 @@ def BuscarDocumento(request):
                 "pageNumbers",
                 "legislationTranscriptCopy",
                 "place",
+                "dispositionNumber",
                 "dispositionTypeId",
                 "affairId",
             ],
