@@ -2,41 +2,55 @@
 
 ## Paguina para buscar en la coleccion de documentos
 
-/v1/buscar/
+/v1/search/
 
 Peticion GET
 
-json con forma 
+/v1/search/?search=engine&fields=dispositionTitle,date,volume,legislationTranscriptCopy
 
-{
-  "search":"<Termino_a_buscar>"
-}
+"search":"<palabra_a_buscar>",
 
-Devuelve una clave http 302 FOUND
+"fields":"dispositionTitle,date,volume" 
+
+Si no se envia fields en la peticion GET se hace una busqueda en todos los campos, se tiene que separar con coma ( , ) cada campo especifico en donde deseas buscar 
+
+Devuelve una clave http 202 OK
 
 Ya tiene archivos subidos se puede hacer una busqueda "engine" para que te devuelva todos los datos
 
 devuelve un json con cada documento y con la misma forma con la que se suben los documentos
 
 {
-        "nombre":"<Nombre_texto>",
-        "autor":"<Autor_texto>",
-        "texto":"<Texto>"
+        "dispositionTitle",
+        "date",
+        "volume",
+        "pageNumbers",
+        "legislationTranscriptCopy",
+        "place",
+        "dispositionNumber",
+        "dispositionTypeId",
+        "affairId",
 }
 
 ## Paguina para subir documentos
 
-/v1/subir/
+/v1/upload/
 
 Peticion POST
 
-Se sube con un formulario html
+Se sube con un formulario html con los siguientes campos
 
 {
-        "nombre":"<Nombre_texto>",
-        "autor":"<Autor_texto>",
-        "texto":"<Texto> <Este texto puede ser tan largo como se ocupe, parecido a un textarea>"
-        "archivo":"<archivo del documento><formato pdf>"
+        "dispositionTitle",
+        "date",
+        "volume",
+        "pageNumbers",
+        "legislationTranscriptOriginal",
+        "legislationTranscriptCopy",
+        "place",
+        "dispositionNumber",
+        "dispositionTypeId",
+        "affairId",
 }
 
-Devuelve el mismo documento que se creo con una respuesta http 201 created
+Devuelve el mismo documento que se creo con una respuesta http 202 OK
