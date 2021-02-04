@@ -17,6 +17,7 @@ class BibliotecaDocument(Document):
 
         # The fields of the model you want to be indexed in Elasticsearch
         fields = [
+            'id',
             'dispositionTitle',
             'date',
             'volume',
