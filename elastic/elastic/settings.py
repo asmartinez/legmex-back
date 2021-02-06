@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'search',
     'django_elasticsearch_dsl', # Framework para conectarse a elastic search
     'corsheaders', # Aplicacion para manejar los CORS
+    'rest_framework',
+    'search',
+    'dispositions',
+    'affair',
 ]
 
 MIDDLEWARE = [
