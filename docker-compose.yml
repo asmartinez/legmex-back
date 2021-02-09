@@ -1,14 +1,36 @@
 version: '3.4'
 
+volumes:
+  data01:
+    driver: local
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
 services:
+
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: colegio_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
+  
   colegioelasticsearch:
-    image: registry.gitlab.com/danytorres/colegio-elastic:latest
+    build: .
     container_name: colegioelasticsearch
     volumes:
       - ./elastic/static:/app/static
       -  ./elastic/uploads:/app/uploads
     depends_on:
-      - db
+      - postgres
       - es01
 
   es01:
@@ -20,26 +42,21 @@ services:
     expose:
       - "9200"
 
-  db:
-    image: postgres:13.1-alpine
-    environment:
-      - POSTGRES_DB=elasticSearch
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    volumes: 
-      - data02:/var/lib/postgresql/data
+ 
+    
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: colegio_production_postgres
     expose:
       - "5432"
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
 
-  watchtower:
-    image: containrrr/watchtower
-    volumes: 
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.docker/config.json:/config.json
-    command: colegioelasticsearch --interval 600 --cleanup
+  
 
-volumes:
-  data01:
-    driver: local
-  data02:
-    driver: local
+  
