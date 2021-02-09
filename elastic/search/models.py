@@ -1,4 +1,6 @@
 from django.db import models
+from dispositions.models import Disposition
+from affair.models import Affair
 
 # Model para los documentos subidos en elastic search
 class Biblioteca(models.Model):
@@ -10,6 +12,6 @@ class Biblioteca(models.Model):
     legislationTranscriptCopy = models.TextField(blank=True)
     place = models.CharField(max_length=155, blank=True)
     dispositionNumber = models.CharField(max_length=155, blank=True)
-    dispositionTypeId = models.CharField(max_length=155, blank=True)
-    affairId = models.CharField(max_length=155, blank=True)
+    dispositionTypeId = models.ForeignKey(Disposition, models.SET_NULL, blank=True, null=True)
+    affairId = models.ForeignKey(Affair, on_delete=models.SET_NULL, blank=True, null=True)
 

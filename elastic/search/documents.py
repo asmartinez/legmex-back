@@ -25,8 +25,6 @@ class BibliotecaDocument(Document):
             'legislationTranscriptOriginal',
             'legislationTranscriptCopy',
             'place',
-            'dispositionTypeId',
-            'affairId',
             'dispositionNumber',
         ]
 
