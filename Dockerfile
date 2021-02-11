@@ -1,6 +1,7 @@
-FROM python:3.7
+FROM python:3.9.0-slim
+
 ENV PYTHONUNBUFFERED=1
-WORKDIR /django-login
-COPY requirements.txt /django-login/
-RUN pip3 install -r requirements.txt
-COPY . /django-login/
+RUN mkdir /code
+WORKDIR /code
+COPY . /code/
+RUN pip install -r requirements.txt

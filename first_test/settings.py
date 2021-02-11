@@ -97,6 +97,7 @@ DATABASES = {
         #'USER': 'postgres',  # CHANGE FOR USER
         #'PASSWORD': 'postgres',  # CHANGE FOR PASS
         #'HOST': 'db',  # CHANGE FOR HOST
+        #'PORT': 5432
         #'DATABASE_PORT': '5432'  # CHANGE FOR PORT
     }
 }
