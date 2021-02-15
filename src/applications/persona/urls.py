@@ -9,4 +9,8 @@ urlpatterns = [
     path('persona/', DesdeApps),
     path('api/persona/list', views.UserListApiView.as_view(),),
     path('api/persona/create', views.UserCreateView.as_view(),),
+    path('api/persona/detail/<pk>', views.UserDetailView.as_view(),),
+    path('api/persona/delete/<pk>', views.UserDeleteView.as_view(),),
+    path('api/persona/update/<pk>', views.UserUpdateView.as_view(),),
+    path('api/persona/modificar/<pk>', views.UserRetriveUpdateView.as_view(),),
 ]
