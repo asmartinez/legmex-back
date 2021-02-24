@@ -2,7 +2,7 @@
 
 ## Paguina para buscar en la coleccion de documentos
 
-/v1/search/
+/api/document/
 
 Peticion GET
 
@@ -34,7 +34,7 @@ devuelve un json con cada documento y con la misma forma con la que se suben los
 
 ## Paguina para subir documentos
 
-/v1/upload/
+/api/upload/
 
 Peticion POST
 
