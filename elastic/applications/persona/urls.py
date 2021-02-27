@@ -6,11 +6,11 @@ def DesdeApps(self):
     print('desde persona')
 
 urlpatterns = [
-    path('persona/', DesdeApps),
-    path('api/persona/list', views.UserListApiView.as_view(),),
-    path('api/persona/create', views.UserCreateView.as_view(),),
-    path('api/persona/detail/<pk>', views.UserDetailView.as_view(),),
-    path('api/persona/delete/<pk>', views.UserDeleteView.as_view(),),
-    path('api/persona/update/<pk>', views.UserUpdateView.as_view(),),
-    path('api/persona/modificar/<pk>', views.UserRetriveUpdateView.as_view(),),
+    path('', DesdeApps),
+    path('list/', views.UserListApiView.as_view(),),
+    path('create/', views.UserCreateView.as_view(),),
+    path('detail/<pk>/', views.UserDetailView.as_view(),),
+    path('delete/<pk>/', views.UserDeleteView.as_view(),),
+    path('update/<pk>/', views.UserUpdateView.as_view(),),
+    path('modificar/<pk>/', views.UserRetriveUpdateView.as_view(),),
 ]

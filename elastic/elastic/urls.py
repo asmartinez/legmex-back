@@ -19,8 +19,8 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('v1/', include('search.urls')), # URL para api
+    path('', include('search.urls')), # URL para api
+    path('persona/', include('applications.persona.urls')), # usuarios
     url(r'^', include('affair.urls')),
     url(r'^', include('dispositions.urls')),
-    path('', include('applications.persona.urls')),
 ]
