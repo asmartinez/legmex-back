@@ -89,6 +89,10 @@ class VerDocumento(APIView):
                         una busqueda en todos los campos, se tiene que separar con coma ( , )
                         cada campo especifico en donde deseas buscar #
         """
+        searchQuery = BibliotecaDocument.search()
+        if request.GET.get("disposition"):
+            disposition = request.query_params["disposition"].split(',')
+            searchQuery = searchQuery.filter("terms", dispositionNumber = disposition)
 
         # Revisa si se mandan los campos especificos a buscar
         if request.GET.get("search") and request.GET.get("fields"):
@@ -97,6 +101,9 @@ class VerDocumento(APIView):
             fieldToSearch = request.query_params["fields"].split(
                 ","
             )  # Combierte el string a un array
+            searchQuery = searchQuery.query(
+            "multi_match", query = searchString, fields = fieldToSearch
+            )
 
         # Revisa si por lo menos se manda el campo search para hacer la busqueda en todos los campos
         elif request.GET.get("search"):
@@ -109,9 +116,12 @@ class VerDocumento(APIView):
                 "legislationTranscriptCopy",
                 "place",
             ]
+            searchQuery = searchQuery.query(
+            "multi_match", query = searchString, fields = fieldToSearch
+            )
 
-        # Devuelve un error si no se manda ningun argumento
-        else:
+        # Devuelve todos los documentos ya que no se realizo ninguna busqueda 
+        elif not request.GET.get("disposition"):
             allDocuments = Biblioteca.objects.all()
             allDocuments_json = DocumentoSerializer(allDocuments, many = True)
             return Response(
@@ -120,9 +130,6 @@ class VerDocumento(APIView):
             )
 
         # ------ Query de busqueda en elastic search y se guardan los resultados en response ---------
-        searchQuery = BibliotecaDocument.search().query(
-            "multi_match", query = searchString, fields = fieldToSearch
-        )
         responseQuery = searchQuery.execute()
         # --------------------------------------------------------------------------------------------
 
