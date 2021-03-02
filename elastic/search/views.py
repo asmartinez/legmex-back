@@ -108,14 +108,15 @@ class VerDocumento(APIView):
                 "pageNumbers",
                 "legislationTranscriptCopy",
                 "place",
-                "dispositionNumber",
             ]
 
         # Devuelve un error si no se manda ningun argumento
         else:
+            allDocuments = Biblioteca.objects.all()
+            allDocuments_json = DocumentoSerializer(allDocuments, many = True)
             return Response(
-                {"message": "Error, no se mando ningun argumento de busqueda"},
-                status = status.HTTP_400_BAD_REQUEST,
+                allDocuments_json.data,
+                status = status.HTTP_200_OK,
             )
 
         # ------ Query de busqueda en elastic search y se guardan los resultados en response ---------
