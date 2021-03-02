@@ -11,7 +11,7 @@ class Biblioteca(models.Model):
     legislationTranscriptOriginal = models.FileField(blank=True, null=False)
     legislationTranscriptCopy = models.TextField(blank=True)
     place = models.CharField(max_length=155, blank=True)
-    dispositionNumber = models.CharField(max_length=155, blank=True)
+    dispositionNumber = models.IntegerField(blank=True)
     dispositionTypeId = models.ForeignKey(Disposition, models.SET_NULL, blank=True, null=True)
     affairId = models.ForeignKey(Affair, on_delete=models.SET_NULL, blank=True, null=True)
 
