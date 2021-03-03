@@ -17,7 +17,7 @@ from rest_framework.response import Response
 
 from .models import User
 
-from .serializer import UserSerializer,UserLoginSerializer
+from .serializer import UserSerializer,UserLoginSerializer,UserSignUpSerializer
 
 # Create your views here.
 
@@ -69,4 +69,11 @@ class UserViewSet(viewsets.GenericViewSet):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-
+    @action(detail=False, methods=['post'])
+    def signup(self, request):
+        """User sign up."""
+        serializer = UserSignUpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        data = UserSerializer(user).data
+        return Response(data, status=status.HTTP_201_CREATED)
