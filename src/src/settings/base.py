@@ -41,15 +41,16 @@ THIRD_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_APPS
 
-REST_FRAMEWORK = {
+'''/*REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.IsAuthenticated',
     ),
 
-}
+}*/'''
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

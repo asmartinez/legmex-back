@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -15,6 +16,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+
 from .models import User
 
 from .serializer import UserSerializer,UserLoginSerializer,UserSignUpSerializer
@@ -23,6 +25,7 @@ from .serializer import UserSerializer,UserLoginSerializer,UserSignUpSerializer
 
 class UserListApiView(ListAPIView):
     serializer_class = UserSerializer
+    #permission_classes = (IsAdminUser,)
 
     def get_queryset(self):
         return User.objects.all()
@@ -30,23 +33,28 @@ class UserListApiView(ListAPIView):
 
 class UserCreateView(CreateAPIView):
     serializer_class = UserSerializer
+    #permission_classes = (IsAdminUser,)
 
 class UserDetailView(RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.filter()
+    #permission_classes = (IsAdminUser,)
 
 class UserDeleteView(DestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    #permission_classes = (IsAdminUser,)
 
 
 class UserUpdateView(UpdateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    #permission_classes = (IsAdminUser,)
 
 
 class UserRetriveUpdateView(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
+    #permission_classes = (IsAdminUser,)
     queryset = User.objects.all()
     
 
@@ -54,6 +62,7 @@ class UserViewSet(viewsets.GenericViewSet):
 
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
+    #permission_classes = (IsAdminUser,)
 
     # Detail define si es una petición de detalle o no, en methods añadimos el método permitido, en nuestro caso solo vamos a permitir post
     @action(detail=False, methods=['post'])
@@ -70,6 +79,7 @@ class UserViewSet(viewsets.GenericViewSet):
 
 
     @action(detail=False, methods=['post'])
+    
     def signup(self, request):
         """User sign up."""
         serializer = UserSignUpSerializer(data=request.data)

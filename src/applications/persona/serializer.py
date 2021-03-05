@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
-from rest_framework import serializers
+
 
 from .models import User
 
@@ -31,13 +31,13 @@ class UserLoginSerializer(serializers.Serializer):
         if not user:
             raise serializers.ValidationError('El usuario no es valido')
 
-        self.context['persona'] = user
+        self.context['user'] = user
         return data
 
     def create(self, data):
         """Generar o recuperar token"""
-        token, created = Token.objects.get_or_create(user=self.context['persona'])
-        return self.context['persona'], token.key
+        token, created = Token.objects.get_or_create(user=self.context['user'])
+        return self.context['user'], token.key
 
 class UserSignUpSerializer(serializers.Serializer):
     
