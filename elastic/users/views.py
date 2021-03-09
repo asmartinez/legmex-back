@@ -1,15 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from decouple import config
 
 import requests
 
 from .serializers import CreateUserSerializer
 
 
-CLIENT_ID = config('CLIENT_ID')
-CLIENT_SECRET = config('CLIENT_SECRET')
+CLIENT_ID = 'cPtO0ybWT7509ZshVZaqpL1lPCcAGAttLPu2wM69'
+CLIENT_SECRET = '7BkiVwxQPtJAy9OfsE23LUisYgB1jCfqDThiAx7ChXdeebAZWpCcPKwOmyR1YKIHTXeaPwfWtkM2i9vlwpyDaMXGLjaO64vZAHRyw1nXs9O2QjiruB1aVB4u6XvTML2N'
 
 
 @api_view(['POST'])
