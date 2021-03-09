@@ -7,6 +7,8 @@ services:
     volumes:
       - ./elastic/static:/app/static
       -  ./elastic/uploads:/app/uploads
+    env_file:
+     - ./.env
     depends_on:
       - db
       - es01

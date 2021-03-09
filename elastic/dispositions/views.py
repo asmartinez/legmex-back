@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 from .models import Disposition
 from .serializers import DispositionSerializer
@@ -9,6 +10,7 @@ from django.http import Http404
 
 # Create your views here.
 class ListDisposition(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         dispositiones = Disposition.objects.all()
         dispositiones_json = DispositionSerializer(dispositiones, many=True)
@@ -21,6 +23,7 @@ class ListDisposition(APIView):
             return Response(dispositiones_json.data, status=201)
         return Response(dispositiones_json.errors, status=400)
 class DetailDisposition(APIView):
+    permission_classes = [AllowAny]
     def get_object(self, pk):
         try:
             return Disposition.objects.get(pk=pk)
