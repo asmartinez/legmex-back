@@ -1,14 +1,16 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
+from decouple import config
 
 import requests
 
 from .serializers import CreateUserSerializer
 
 
-CLIENT_ID = 'cPtO0ybWT7509ZshVZaqpL1lPCcAGAttLPu2wM69'
-CLIENT_SECRET = '7BkiVwxQPtJAy9OfsE23LUisYgB1jCfqDThiAx7ChXdeebAZWpCcPKwOmyR1YKIHTXeaPwfWtkM2i9vlwpyDaMXGLjaO64vZAHRyw1nXs9O2QjiruB1aVB4u6XvTML2N'
+CLIENT_ID = config('CLIENT_ID')
+CLIENT_SECRET = config('CLIENT_SECRET')
+BACKEND = config('BACKEND')
 
 
 @api_view(['POST'])
@@ -26,7 +28,7 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post('http://localhost:8080/o/token/', 
+        r = requests.post(f'{BACKEND}o/token/', 
             data={
                 'grant_type': 'password',
                 'username': request.data['username'],
@@ -48,7 +50,7 @@ def token(request):
     {"username": "username", "password": "1234abcd"}
     '''
     r = requests.post(
-    'http://localhost:8080/o/token/', 
+    f'{BACKEND}/o/token/', 
         data={
             'grant_type': 'password',
             'username': request.data['username'],
@@ -69,7 +71,7 @@ def refresh_token(request):
     {"refresh_token": "<token>"}
     '''
     r = requests.post(
-    'http://localhost:8080/o/token/', 
+    f'{BACKEND}/o/token/', 
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
@@ -88,7 +90,7 @@ def revoke_token(request):
     {"token": "<token>"}
     '''
     r = requests.post(
-        'http://localhost:8080/o/revoke_token/', 
+        f'{BACKEND}/o/revoke_token/', 
         data={
             'token': request.data['token'],
             'client_id': CLIENT_ID,
