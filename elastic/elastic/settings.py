@@ -40,18 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_elasticsearch_dsl', # Framework para conectarse a elastic search
     'corsheaders', # Aplicacion para manejar los CORS
-    'rest_framework',
+    'rest_framework', # Rest API
+    'oauth2_provider', # OAuth2
     'search',
     'dispositions',
     'affair',
-    'applications.persona',
-    'applications.departamento',
+    'users',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware', # Middleweare para la aplicacion de CORS
+    'oauth2_provider.middleware.OAuth2TokenMiddleware', # Oauth2
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -78,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'elastic.wsgi.application'
-AUTH_USER_MODEL = 'persona.User'
 
 
 # Database
@@ -163,3 +163,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
 # Configuracion de los headers cors 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# -- Set up DRF to use OAuth2
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication', # To keep the Browsable API
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+# --- Specify the authentication backends 
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # To keep the Browsable API
+    'oauth2_provider.backends.OAuth2Backend',
+)

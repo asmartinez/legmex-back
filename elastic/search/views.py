@@ -5,6 +5,7 @@ from .serializer import DocumentoSerializer
 from .models import Biblioteca
 from .documents import BibliotecaDocument
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import AllowAny
 
 
 class ModificarDocumento(APIView):
@@ -12,6 +13,7 @@ class ModificarDocumento(APIView):
     Funcion para eliminar un documento por su id, en la url se puede meter este valor
     """
     parser_classes = [FormParser, MultiPartParser]
+    permission_classes = [AllowAny]
     def delete(self, request, id):
         try:
             documentByID = Biblioteca.objects.get(id = id)
@@ -52,11 +54,12 @@ class ModificarDocumento(APIView):
 
 class VerDocumento(APIView):
     """
-    Funcion para eliminar un documento por su id, en la url se puede meter este valor
+    clase para la manipulacion de documentos
     """
     parser_classes = [FormParser, MultiPartParser]
-    def post(self, request):
+    permission_classes = [AllowAny]
 
+    def post(self, request):
         """
         Funcion para subir documento en formato formulario html
         {

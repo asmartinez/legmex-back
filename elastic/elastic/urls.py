@@ -19,8 +19,11 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Authentication
+    path('o/', include('oauth2_provider.urls', namespace='aouth2_provider')),
+    path('authentication/', include('users.urls')),
+    # API
     path('', include('search.urls')), # URL para api
-    path('persona/', include('applications.persona.urls')), # usuarios
     url(r'^', include('affair.urls')),
     url(r'^', include('dispositions.urls')),
 ]

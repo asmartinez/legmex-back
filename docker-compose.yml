@@ -2,14 +2,17 @@ version: '3.4'
 
 services:
   colegioelasticsearch:
-    image: registry.gitlab.com/danytorres/colegio-elastic:latest
+    image: registry.gitlab.com/danytorres/colegio-back:latest
     container_name: colegioelasticsearch
+    build: .
     volumes:
       - ./elastic/static:/app/static
-      -  ./elastic/uploads:/app/uploads
+      - ./elastic/uploads:/app/uploads
     depends_on:
       - db
       - es01
+    ports:
+      - 8000:8000
 
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
