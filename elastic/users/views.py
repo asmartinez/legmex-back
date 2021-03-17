@@ -35,7 +35,9 @@ def register(request):
                 'client_secret': CLIENT_SECRET,
             },
         )
-        return Response(r.json())
+        res = r.json()
+        res["user"] = {'username': request.data['username']}
+        return Response(res)
     return Response(serializer.errors)
 
 
@@ -57,7 +59,9 @@ def token(request):
             'client_secret': CLIENT_SECRET,
         },
     )
-    return Response(r.json())
+    res = r.json()
+    res["user"] = {'username': request.data['username']}
+    return Response(res)
 
 
 
