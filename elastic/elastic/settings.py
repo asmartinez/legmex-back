@@ -147,11 +147,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Configuracion de elastic search
-# {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
-# {'hosts': 'localhost:9200'} # Configuracion para probar local
+# 'es01:9200' # Configuracion para el clouster de docker-compose
+# 'localhost:9200' # Configuracion para probar local
 
 ELASTICSEARCH_DSL={
-    'default': config('ELASTICSEARCH_SERVER'),
+    'default': {'hosts':config('ELASTICSEARCH_SERVER')},
 }
 
 # Configuracion donde se guardan los archivos
