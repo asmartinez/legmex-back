@@ -1,6 +1,6 @@
 from django.db import models
-from dispositions.models import Disposition
-from affair.models import Affair
+from ..dispositions.models import Disposition
+from ..affair.models import Affair
 
 # Model para los documentos subidos en elastic search
 class Biblioteca(models.Model):

@@ -6,9 +6,12 @@ import requests
 
 from .serializers import CreateUserSerializer
 
+from decouple import config
 
-CLIENT_ID = 'cPtO0ybWT7509ZshVZaqpL1lPCcAGAttLPu2wM69'
-CLIENT_SECRET = '7BkiVwxQPtJAy9OfsE23LUisYgB1jCfqDThiAx7ChXdeebAZWpCcPKwOmyR1YKIHTXeaPwfWtkM2i9vlwpyDaMXGLjaO64vZAHRyw1nXs9O2QjiruB1aVB4u6XvTML2N'
+
+CLIENT_ID = config('CLIENT_ID')
+CLIENT_SECRET = config('CLIENT_SECRET')
+SERVER = config('SERVER')
 
 
 @api_view(['POST'])
@@ -26,7 +29,7 @@ def register(request):
         serializer.save() 
         # Then we get a token for the created user.
         # This could be done differentley 
-        r = requests.post('https://www.apicolegioelastic.live/o/token/', 
+        r = requests.post(f'{SERVER}/o/token/', 
             data={
                 'grant_type': 'password',
                 'username': request.data['username'],
@@ -50,7 +53,7 @@ def token(request):
     {"username": "username", "password": "1234abcd"}
     '''
     r = requests.post(
-    'https://www.apicolegioelastic.live/o/token/', 
+    f'{SERVER}/o/token/', 
         data={
             'grant_type': 'password',
             'username': request.data['username'],
@@ -73,7 +76,7 @@ def refresh_token(request):
     {"refresh_token": "<token>"}
     '''
     r = requests.post(
-    'https://www.apicolegioelastic.live/o/token/', 
+    f'{SERVER}/o/token/', 
         data={
             'grant_type': 'refresh_token',
             'refresh_token': request.data['refresh_token'],
@@ -92,7 +95,7 @@ def revoke_token(request):
     {"token": "<token>"}
     '''
     r = requests.post(
-        'https://www.apicolegioelastic.live/o/revoke_token/', 
+        f'{SERVER}/o/revoke_token/', 
         data={
             'token': request.data['token'],
             'client_id': CLIENT_ID,

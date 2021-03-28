@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mfpnip5-z-pvdzr$76#p=*e1+_x0!(c7de05*(hkna5!&58#^)'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -97,11 +98,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'elasticSearch',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-            'HOST': 'db',
-            'PORT': 5432,
+            'NAME': config('DATABASE_NAME'),
+            'USER': config('DATABASE_USER'),
+            'PASSWORD': config('DATABASE_PASSWORD'),
+            'HOST': config('DATABASE_HOST'),
+            'PORT': config('DATABASE_PORT', cast=int),
         }
     }
 
@@ -146,14 +147,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Configuracion de elastic search
-
-if(not DEBUG):
-    serverElastic = {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
-else:
-    serverElastic = {'hosts': 'localhost:9200'} # Configuracion para probar local
+# {'hosts': 'es01:9200'} # Configuracion para el clouster de docker-compose
+# {'hosts': 'localhost:9200'} # Configuracion para probar local
 
 ELASTICSEARCH_DSL={
-    'default': serverElastic,
+    'default': config('ELASTICSEARCH_SERVER'),
 }
 
 # Configuracion donde se guardan los archivos
