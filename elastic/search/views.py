@@ -91,6 +91,8 @@ class VerDocumento(APIView):
             "fields":"dispositionTitle,date,volume" # Si no se envia en la peticion GET se hace
                         una busqueda en todos los campos, se tiene que separar con coma ( , )
                         cada campo especifico en donde deseas buscar #
+            "disposition":"1,2,4" # campo para hacer una busqueda mas precisa con el numero de
+                                    disposicion separado por comas #
         """
         searchQuery = BibliotecaDocument.search()
         if request.GET.get("disposition"):
