@@ -1,20 +1,24 @@
 # colegio-elasticsearch
 
-## Paguina para buscar en la coleccion de documentos
+## Paguinas para buscar en la coleccion de documentos
 
 ### /document/
 
 Peticion GET
 
-Envia todos los documentos guardados 
+Devuelve todos los documentos guardados 
 
 ### /document/?search=engine&fields=dispositionTitle,date,volume,legislationTranscriptCopy&disposition=1,2,3
 
 "search":"<palabra_a_buscar>"
 
-"fields":"dispositionTitle,date,volume" Si no se envia fields en la peticion GET se hace una busqueda en todos los campos, se tiene que separar con coma ( , ) cada campo especifico en donde deseas buscar 
+"fields":"dispositionTitle,date,volume" 
 
-"disposition":"1,2,4" Campo para hacer una busqueda mas precisa con el numero de disposicion separado por comas 
+Si no se envia fields en la peticion GET se hace una busqueda en todos los campos, se tiene que separar con coma ( , ) cada campo especifico en donde deseas buscar 
+
+"disposition":"1,2,4" 
+
+Campo para hacer una busqueda mas precisa con el numero de disposicion separado por comas 
 
 Devuelve una clave http 200 OK
 
@@ -35,7 +39,7 @@ devuelve un json con cada documento y con la misma forma con la que se suben los
             "affairId",
         }
 
-## Paguina para subir documentos
+## Paguinas para subir documentos
 
 ### /document/
 
@@ -66,10 +70,10 @@ Para autenticacion se necesita registrar la aplicacion en el sistema de autentic
 
 ### /o/applications/
 
-en la paguina se da click en new application y meter las siguientes opciones en el formulario:
+En la paguina se da click en new application y meter las siguientes opciones en el formulario:
 
-Client type: Confidential
-Authorization grant type: Resource owner password-based
+- Client type: Confidential
+- Authorization grant type: Resource owner password-based
 
 El nombre puede ser cualquiera que consideres
 
@@ -173,11 +177,11 @@ Regresa un json con el siguiente mensaje
 
         ELASTICSEARCH_SERVER=
 
-Settings Oauth2 users/views.py 
+### Settings Oauth2 users/views.py 
 
         CLIENT_ID=
         CLIENT_SECRET=
 
-Se pone el server en formato http://localhost:8000 sin un slash (/) al final
+### Se pone el server en formato http://localhost:8000 sin un slash (/) al final
 
         SERVER=
